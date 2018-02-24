@@ -36,6 +36,10 @@ reload_service() {
 }
 
 start_service() {
+	[ -f /var/run/tor.pid ] || {
+		touch /var/run/tor.pid
+	}
+	chown tor:tor /var/run/tor.pid
 	mkdir -m 0700 -p /var/lib/tor
 	chown -R tor:tor /var/lib/tor
 
