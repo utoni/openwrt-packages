@@ -50,7 +50,7 @@ CMAKE_OPTIONS += \
 	-DWITH_GSSAPI:BOOL=OFF \
 	-DWITH_LIBZ:BOOL=ON \
 	-DWITH_NACL:BOOL=OFF \
-	-DWITH_PCAP:BOOL=OFF \
+	-DWITH_PCAP:BOOL=ON \
 	-DWITH_SERVER:BOOL=ON \
 	-DWITH_SFTP:BOOL=ON \
 	-UWITH_STACK_CLASH_PROTECTION \
@@ -60,6 +60,26 @@ CMAKE_OPTIONS += \
 	-UWITH_STACK_PROTECTOR_STRONG \
 	-DWITH_STACK_PROTECTOR_STRONG=0 \
 	-DHAVE_WORDS_BIGENDIAN=$(if $(CONFIG_BIG_ENDIAN),1,0)
+	-DWITH_SSH1:BOOL=OFF \
+	-DWITH_TESTING:BOOL=OFF \
+	-DWITH_STATIC_LIB:BOOL=ON \
+
+ifeq ($(CONFIG_BIG_ENDIAN),y)
+CMAKE_OPTIONS += -DHAVE_WORDS_BIGENDIAN=1
+else
+CMAKE_OPTIONS += -DHAVE_WORDS_BIGENDIAN=0
+endif
+
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/include/libssh/
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/include/libssh/* $(1)/usr/include/libssh/
+
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libssh* $(1)/usr/lib/
+
+	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/* $(1)/usr/lib/pkgconfig/
+endef
 
 define Package/libssh/install
 	$(INSTALL_DIR) $(1)/usr/lib
