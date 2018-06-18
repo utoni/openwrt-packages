@@ -40,7 +40,10 @@ define Package/libssh/description
  for client and server implementations.
 endef
 
-CMAKE_OPTIONS += \
+EXTRA_CFLAGS += \
+	-DHAVE_OPENSSL_EVP_CIPHER_CTX_NEW=1
+
+CMAKE_OPTIONS = \
 	-DHAVE_STRTOULL=1 \
 	-DHAVE_GETADDRINFO=1 \
 	-DHAVE_TERMIOS_H=1 \
