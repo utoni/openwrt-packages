@@ -43,7 +43,7 @@ endef
 EXTRA_CFLAGS += \
 	-DHAVE_OPENSSL_EVP_CIPHER_CTX_NEW=1
 
-CMAKE_OPTIONS = \
+CMAKE_OPTIONS += \
 	-DHAVE_STRTOULL=1 \
 	-DHAVE_GETADDRINFO=1 \
 	-DHAVE_TERMIOS_H=1 \
@@ -62,21 +62,10 @@ CMAKE_OPTIONS = \
 	-DWITH_STACK_PROTECTOR=0 \
 	-UWITH_STACK_PROTECTOR_STRONG \
 	-DWITH_STACK_PROTECTOR_STRONG=0 \
-	-DHAVE_WORDS_BIGENDIAN=$(if $(CONFIG_BIG_ENDIAN),1,0) \
 	-DWITH_SSH1:BOOL=OFF \
 	-DWITH_TESTING:BOOL=OFF \
 	-DWITH_STATIC_LIB:BOOL=ON \
-
-define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/include/libssh/
-	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/include/libssh/* $(1)/usr/include/libssh/
-
-	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libssh* $(1)/usr/lib/
-
-	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
-	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/* $(1)/usr/lib/pkgconfig/
-endef
+	-DHAVE_WORDS_BIGENDIAN=$(if $(CONFIG_BIG_ENDIAN),1,0)
 
 define Package/libssh/install
 	$(INSTALL_DIR) $(1)/usr/lib
