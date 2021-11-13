@@ -22,8 +22,10 @@
 
 # Construct JSON payload
 json_init
-json_add_string name "$username"
-json_add_string data "$__IP"
+json_add_object
+	json_add_string name "$username"
+	json_add_string data "$__IP"
+json_close_object
 
 __STATUS=$(curl -Ss -X PUT "https://api.digitalocean.com/v2/domains/${domain}/records/${param_opt}" \
 	-H "Authorization: Bearer ${password}" \
